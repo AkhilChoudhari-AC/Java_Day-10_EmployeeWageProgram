@@ -1,30 +1,27 @@
 package EmployeeWageComputation;
 
 
+import java.util.ArrayList;
+
 public class EmpWageBuilder {
     // constants
     final static int IS_FULL_TIME = 1;
     final static int IS_PART_TIME = 2;
-    // instance variables
-    private int numberOfCompanies = 0;
-    private Company[] company;
 
-    public EmpWageBuilder() {
-        this.company = new Company[5];
-    }
+    // instance variables
+    ArrayList<Company> companyList = new ArrayList<Company>();
 
     // To add multiple companies with their parameters to calculate employee wage
     public void addCompanyDetailsForEmpWage(String companyName, int empRatePerHr, int numnberOfWorkingDays,
                                             int maxWorkingHrsPerMonth) {
-        company[numberOfCompanies] = new Company(companyName, empRatePerHr, numnberOfWorkingDays,
-                maxWorkingHrsPerMonth);
-        numberOfCompanies++;
+        Company company = new Company(companyName, empRatePerHr, numnberOfWorkingDays, maxWorkingHrsPerMonth);
+        companyList.add(company);
     }
 
     // compute employee wages for particular companies
     public void companyEmpWage() {
-        for (int i = 0; i < numberOfCompanies; i++) {
-            this.empWgaeComputation(company[i]);
+        for (int i = 0; i < companyList.size(); i++) {
+            empWgaeComputation(this.companyList.get(i));
         }
     }
 
@@ -37,11 +34,9 @@ public class EmpWageBuilder {
             case IS_FULL_TIME:
                 empHrs = 8;
                 break;
-
             case IS_PART_TIME:
                 empHrs = 4;
                 break;
-
             default:
                 empHrs = 0;
         }
@@ -56,10 +51,13 @@ public class EmpWageBuilder {
         int days = 0;
         int totalWorkingHrs = 0;
         int totalEmpWage = 0;
+
         while (days < company.numberOfWorkingDays && totalWorkingHrs <= company.maxWorkingHrsPerMonth) {
             days++;
+
             int empHrs = this.getEmpHrs();
             totalWorkingHrs += empHrs;
+
             System.out.println("emp hrs : " + empHrs);
         }
         totalEmpWage = totalWorkingHrs * company.empRatePerHr;
@@ -71,8 +69,9 @@ public class EmpWageBuilder {
         System.out.println("Welcome to employee wage computation problem");
         System.out.println("Calculating wages for employees");
         EmpWageBuilder empWageBuilder = new EmpWageBuilder();
-        empWageBuilder.addCompanyDetailsForEmpWage("Dmart", 20, 20, 100);
-        empWageBuilder.addCompanyDetailsForEmpWage("BigBasket", 25, 20, 80);
+        empWageBuilder.addCompanyDetailsForEmpWage("Dmart", 10, 20, 16);
+        empWageBuilder.addCompanyDetailsForEmpWage("BigBasket", 20, 20, 20);
+        empWageBuilder.addCompanyDetailsForEmpWage("Reliance", 10, 20, 10);
         empWageBuilder.companyEmpWage();
     }
 }
